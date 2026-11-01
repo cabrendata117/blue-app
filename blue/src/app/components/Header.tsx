@@ -6,6 +6,7 @@ const MENU = [
 { href: "/", texto: "Inicio" },
 { href: "/plasticos", texto: "Plásticos" },
 { href: "/centros", texto: "Centros" },
+{ href: "/aliado-principal", texto: "Aliado principal" },
 ];
 
 export default function Header() {
@@ -18,7 +19,7 @@ return (
             <Image src={LOGO} alt="Logo Blue" fill className="object-contain p-1" priority />
         </span>
         </Link>
-        <nav className="flex gap-6 text-sm font-semibold">
+        <nav className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold">
         {MENU.map((m) => (
             <Link key={m.href} href={m.href} className="hover:text-blue-300">{m.texto}</Link>
         ))}

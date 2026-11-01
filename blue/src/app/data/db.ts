@@ -33,6 +33,13 @@ export async function getPlasticos(): Promise<Plastico[]> {
   return (data ?? []).map(filaAPlastico);
 }
 
+// Todos los plásticos con su ficha técnica (lo usa el chatbot para armar su contexto)
+export async function getPlasticosDetalle(): Promise<PlasticoDetalle[]> {
+  const { data, error } = await cliente().from("plasticos").select("*, ficha:fichas_tecnicas(*)").order("orden");
+  if (error) throw new Error(`Supabase (plasticos con ficha): ${error.message}`);
+  return (data ?? []).map(filaAPlasticoDetalle);
+}
+
 export async function getPlastico(id: string): Promise<PlasticoDetalle | null> {
   const { data, error } = await cliente().from("plasticos").select("*, ficha:fichas_tecnicas(*)").eq("id", id).maybeSingle();
   if (error) throw new Error(`Supabase (plástico ${id}): ${error.message}`);

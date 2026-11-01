@@ -1,9 +1,9 @@
 import Link from "next/link";
+import { connection } from "next/server";
 import Header from "./components/Header";
 import Foto from "./components/Foto";
 import Footer from "./components/Footer";
-import { centros } from "./data/centros";
-import { plasticos } from "./data/plasticos";
+import { getCentros, getPlasticos } from "./data/db";
 
 // IMÁGENES de la landing: crea blue/public/images/landing/ y guarda ahí las fotos indicadas en cada paso.
 const CICLO = [
@@ -12,7 +12,9 @@ const CICLO = [
   { titulo: "3. Transformación", texto: "Las plantas lo trituran, lo lavan y lo vuelven pellet o producto nuevo, como las mangueras.", foto: "transformacion.jpg", ej: "foto de pellets o de una línea de extrusión" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  await connection(); // lee la base de datos en cada visita (no la deja congelada al compilar)
+  const [centros, plasticos] = await Promise.all([getCentros(), getPlasticos()]);
   return (
     <main className="bg-blue-50 text-gray-900">
       <Header />

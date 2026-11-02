@@ -11,15 +11,31 @@ const GRUPOS = [
   { cat: "transformador", titulo: "Transformadores", desc: "Procesan el plástico o lo usan para fabricar nuevos productos." },
 ] as const;
 
+const ALIADO = "manpoplast"; // id del aliado principal en la tabla centros
+
 export default async function CentrosPage() {
   await connection(); // lee la base de datos en cada visita (no la deja congelada al compilar)
   const centros = await getCentros();
+  const aliado = centros.find((c) => c.id === ALIADO);
   return (
     <main className="min-h-screen bg-blue-50 text-gray-900">
       <Header />
       <div className="mx-auto max-w-6xl px-6 py-12">
         <h1 className="mb-1 text-3xl font-black text-blue-950">Centros de recolección en Bucaramanga</h1>
         <p className="mb-8 text-sm text-gray-600">Distancias en línea recta desde la {USTA.nombre}.</p>
+
+        {/* Aliado principal destacado (sale de la tabla centros: supabase/agregar_aliado.sql) */}
+        {aliado && (
+          <Link href="/aliado-principal"
+            className="mb-12 flex flex-col gap-3 rounded-2xl bg-gradient-to-r from-blue-950 to-blue-700 p-6 text-white shadow-sm hover:shadow-lg sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-bold uppercase tracking-widest text-blue-800">Aliado principal</span>
+              <h2 className="mt-3 text-2xl font-black">{aliado.nombre_organizacion}</h2>
+              <p className="text-sm text-blue-100">{aliado.tipo_entidad} · {distanciaKm(aliado.lat, aliado.lng).toFixed(1)} km desde la USTA</p>
+            </div>
+            <span className="shrink-0 rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-blue-800">Conoce la planta →</span>
+          </Link>
+        )}
 
         <section className="mb-12">
           <h2 className="mb-1 text-xl font-bold text-blue-800">Mapa de cercanía</h2>
@@ -45,6 +61,9 @@ export default async function CentrosPage() {
                         <span className="shrink-0 rounded-full bg-blue-950 px-2.5 py-1 text-xs font-bold text-white">{distanciaKm(c.lat, c.lng).toFixed(1)} km</span>
                       </div>
                       <p className="mb-3 text-xs font-semibold text-blue-600">{c.tipo_entidad}</p>
+                      {c.id === ALIADO && (
+                        <span className="mb-3 inline-block rounded-full bg-blue-600 px-2.5 py-1 text-xs font-bold text-white">Aliado principal</span>
+                      )}
                       <p className="line-clamp-2 text-sm text-gray-600">📍 {c.contacto.direccion}</p>
                     </div>
                     <div className="mt-4 flex flex-wrap gap-2">

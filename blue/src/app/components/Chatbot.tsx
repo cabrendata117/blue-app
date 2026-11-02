@@ -64,7 +64,7 @@ return (
     <div className="fixed bottom-4 right-4 z-40 flex flex-col items-end">
     {abierto && (
         <section role="dialog" aria-label="Chat de Blue"
-        className="mb-3 flex h-[min(32rem,75vh)] w-[min(24rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-blue-100 bg-white shadow-2xl"
+        className="mb-3 flex h-[min(32rem,75vh)] w-[min(24rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-blue-100 bg-white text-gray-900 shadow-2xl"
         onKeyDown={(e) => e.key === "Escape" && setAbierto(false)}>
         <header className="flex items-center justify-between bg-blue-950 px-4 py-3 text-white">
             <div>
@@ -92,7 +92,7 @@ return (
                 onChange={(e) => setTexto(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); enviar(); } }}
                 placeholder="Ej: ¿Quién recibe LDPE?"
-                className="flex-1 resize-none rounded-lg border border-blue-200 px-3 py-2 text-sm focus:border-blue-600 focus:outline-none" />
+                className="flex-1 resize-none rounded-lg border border-blue-200 bg-white px-3 py-2 text-sm text-gray-900 placeholder:text-gray-400 focus:border-blue-600 focus:outline-none" />
             <button type="submit" disabled={cargando || !texto.trim()}
                 className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50">Enviar</button>
             </div>
